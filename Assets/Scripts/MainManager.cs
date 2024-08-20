@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,8 +13,10 @@ public class MainManager : MonoBehaviour
 
     public Text ScoreText;
     public Text BestScoreText;
+    public InputField NameInputText;
+    public GameObject NameInputSet;
+    public Text Name;
     public GameObject GameOverText;
-    public GameObject inputName;
     public GameObject BackToMenuButton;
 
     private bool m_Started = false;
@@ -53,7 +56,7 @@ public class MainManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 m_Started = true;
-                float randomDirection = Random.Range(-1.0f, 1.0f);
+                float randomDirection = UnityEngine.Random.Range(-1.0f, 1.0f);
                 Vector3 forceDir = new Vector3(randomDirection, 1, 0);
                 forceDir.Normalize();
 
@@ -65,6 +68,13 @@ public class MainManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                if (PlayerData.Instance.Scores < m_Points)
+                {
+                    PlayerData.Instance.Name = Name.text;
+                    PlayerData.Instance.Scores = m_Points;
+                    PlayerData.Instance.SaveScore();
+                    BestScore();
+                }
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
@@ -76,19 +86,21 @@ public class MainManager : MonoBehaviour
         ScoreText.text = $"Score : {m_Points}";
     }
 
+    public void NameInput()
+    {
+        Name.text = NameInputText.text;
+    }
+
+
     public void GameOver()
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
 
-        inputName.SetActive(true);
         BackToMenuButton.SetActive(true);
-
         if (PlayerData.Instance.Scores < m_Points)
         {
-            PlayerData.Instance.Scores = m_Points;
-            PlayerData.Instance.SaveScore();
-            BestScore();
+            NameInputSet.SetActive(true);
         }
     }
 
@@ -99,6 +111,6 @@ public class MainManager : MonoBehaviour
 
     public void BestScore()
     {
-        BestScoreText.text = "Best score: " + "name: " + PlayerData.Instance.Scores;
+        BestScoreText.text = "Best score: " + PlayerData.Instance.Name + " " + PlayerData.Instance.Scores;
     }
 }

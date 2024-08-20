@@ -24,8 +24,9 @@ public class MenuUI : MonoBehaviour
 
     public void BestScore()
     {
-        BestScoreText.text = "Best Score: " + "name:" + PlayerData.Instance.Scores;
+        BestScoreText.text = "Best score: " + PlayerData.Instance.Name + " " + PlayerData.Instance.Scores;
     }
+
 
     public void Exit()
     {

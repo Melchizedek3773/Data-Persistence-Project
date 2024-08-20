@@ -7,6 +7,7 @@ public class PlayerData : MonoBehaviour
 {
     public static PlayerData Instance;
     public int Scores;
+    public string Name;
 
     void Awake()
     {
@@ -24,13 +25,15 @@ public class PlayerData : MonoBehaviour
     class SaveData
     {
         public int Scores;
+        public string Name;
     }
 
     public void SaveScore()
     {
         SaveData data = new SaveData
         {
-            Scores = Scores
+            Scores = Scores,
+            Name = Name
         };
 
         string json = JsonUtility.ToJson(data);
@@ -45,6 +48,7 @@ public class PlayerData : MonoBehaviour
             string json = File.ReadAllText(path);
             SaveData data = JsonUtility.FromJson<SaveData>(json);
             Scores = data.Scores;
+            Name = data.Name;
         }
     }
 }
