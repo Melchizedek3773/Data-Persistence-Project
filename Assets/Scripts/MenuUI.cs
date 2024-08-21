@@ -1,8 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class MenuUI : MonoBehaviour
 {
@@ -27,7 +31,11 @@ public class MenuUI : MonoBehaviour
 
     public void Exit()
     {
-        PlayerData.Instance.SaveScore(); // After Exit update
+        PlayerData.Instance.SaveScore(); // After Exit update\
+#if UNITY_EDITOR
+        EditorApplication.ExitPlaymode();
+#else
         Application.Quit();
+#endif
     }
 }

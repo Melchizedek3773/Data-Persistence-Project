@@ -30,11 +30,10 @@ public class PlayerData : MonoBehaviour
 
     public void SaveScore()
     {
-        SaveData data = new SaveData
-        {
-            Scores = Scores,
-            Name = Name
-        };
+        SaveData data = new SaveData();
+        data.Scores = Scores;
+        data.Name = Name;
+
 
         string json = JsonUtility.ToJson(data);
         File.WriteAllText(Application.persistentDataPath + "/savedata.json", json);
